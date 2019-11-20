@@ -4,6 +4,10 @@ import { ENV } from '../../../config/env';
 import tokenModel from './tokens';
 import topicModel from './topics';
 import userModel from './users';
+import userlanguagesModel from './userlanguages';
+import userExperianceModel from './userexperiance';
+import userEducationModel from './usereducation';
+import userProfileModel from './userprofile';
 
 const config = ENV ==='production'? sequelizeConfig.production : sequelizeConfig.development;
 
@@ -15,7 +19,10 @@ const sequelize = dbUrl ? new Sequelize(dbUrl) : new Sequelize(config.database, 
 db.Token = sequelize.import('Token', tokenModel);
 db.Topic = sequelize.import('Topic', topicModel);
 db.User = sequelize.import('User', userModel);
-
+db.UserLanguages = sequelize.import('userlanguages',userlanguagesModel);
+db.UserExperiance = sequelize.import('UserExperiance',userExperianceModel);
+db.UserProfile = sequelize.import('UserProfile',userProfileModel);
+db.UserEducation = sequelize.import('UserEducation',userEducationModel);
 Object.keys(db).forEach((key) => {
   const model = db[key];
   if (model.associate) {

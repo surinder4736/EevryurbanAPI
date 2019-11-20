@@ -2,9 +2,38 @@
  * Routes for express app
  */
 import passport from 'passport';
+var multer  = require('multer');
 import unsupportedMessage from '../db/unsupportedMessage';
 import { controllers, passport as passportConfig } from '../db';
+
 const usersController = controllers && controllers.users;
+const userExperiance = controllers && controllers.userExperiance;
+const UserLanguage = controllers && controllers.userLanguages;
+const userProfile = controllers && controllers.userProfile;
+const userEducation = controllers && controllers.userEducation;
+
+
+
+var storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, './public/images');
+  },
+  filename: (req, file, cb) => {
+    console.log(file);
+    var filetype = '';
+    if(file.mimetype === 'image/gif') {
+      filetype = 'gif';
+    }
+    if(file.mimetype === 'image/png') {
+      filetype = 'png';
+    }
+    if(file.mimetype === 'image/jpeg') {
+      filetype = 'jpg';
+    }
+    cb(null, 'image-' + Date.now() + '.' + filetype);
+  }
+});
+var upload = multer({storage: storage});
 
 export default (app) => {
 
@@ -22,6 +51,32 @@ export default (app) => {
     console.warn(unsupportedMessage('users routes'));
   }
 
+  if(UserLanguage) {
+    app.post('/api/users/:userId/language', UserLanguage.create); // API route for user to create a book
+    app.put('/api/users/:userId/:id/language', UserLanguage.modify);
+    app.delete('/api/users/:userid/:id/language', UserLanguage.delete);
+    app.get('/api/users/:userid/languages', UserLanguage.list);
+  }
+  if(userExperiance) {
+    app.post('/api/users/:userId/experiance', userExperiance.create); // API route for user to create a book
+    app.put('/api/users/:userId/:id/experiance', userExperiance.modify);
+    app.delete('/api/users/:userid/:id/experiance', userExperiance.delete);
+    app.get('/api/users/:userid/experiance', userExperiance.list);
+  }
+  if(userProfile) {
+    app.post('/api/users/:userId/profile', userProfile.create); // API route for user to create a book
+    app.put('/api/users/:userId/:id/profile', userProfile.modify);
+    app.delete('/api/users/:userid/:id/profile', userProfile.delete);
+    app.get('/api/users/:userid/profile', userProfile.list);
+    app.get('/api/users/:userid/completeprofile', userProfile.fetchCompleteProfile);
+    app.post('/api/users/:userid/:id/upload',upload.single('file'), userProfile.changePhoto);
+  }
+  if(userEducation) {
+    app.post('/api/users/:userId/education', userEducation.create); // API route for user to create a book
+    app.put('/api/users/:userId/:id/education', userEducation.modify);
+    app.delete('/api/users/:userid/:id/education', userEducation.delete);
+    app.get('/api/users/:userid/education', userEducation.list);
+  }
   if (passportConfig && passportConfig.google) {
     // google auth
     // Redirect the user to Google for authentication. When complete, Google

@@ -39,7 +39,22 @@ export default (sequelize, DataTypes) => {
     //company_name: DataTypes.STRING
   }, {
   });
-
+  User.associate = (models) => {
+    // associations can be defined here
+    User.hasMany(models.UserLanguages, {
+      foreignKey: 'userId',
+    });
+    User.hasMany(models.UserExperiance, {
+      foreignKey: 'userId',
+    });
+    User.hasMany(models.UserEducation, {
+      foreignKey: 'userId',
+    });
+    User.hasOne(models.UserProfile, {
+      foreignKey: 'userId',
+    });
+    
+  };
   User.beforeCreate(hashPassword);
   User.beforeUpdate(hashPassword);
   User.prototype.comparePassword = function (candidatePassword) {

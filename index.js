@@ -5,7 +5,7 @@ import cors  from 'cors';
 import initPassport from './init/passport';
 import initExpress from './init/express';
 import initRoutes from './init/routes';
-import initFileOperation from './init/fileOperation';
+// import initFileOperation from './init/fileOperation';
 import errorHandler from  'express-error-handler';
 var enableWs =require('express-ws');
 const app = express();
@@ -45,7 +45,7 @@ initRoutes(app);
 * This is where the files magic happens. We take files 
 * from server and perform action as per defined in rule
 */
-initFileOperation(app);
+//initFileOperation(app);
 /*
  * This is where the magic happens. We take the locals data we have already
  * fetched and seed our stores with data.
