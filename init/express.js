@@ -30,7 +30,6 @@ export default (app) => {
   app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
   app.use(methodOverride());
   app.use(cookieParser());
-
   app.use(express.static(path.join(process.cwd(), 'public')));
   var aWss = expressWs.getWss('/');
 app.ws('/', function(ws, req) {
