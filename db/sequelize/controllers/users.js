@@ -7,6 +7,7 @@ import moment from 'moment';
 import { throws } from 'assert';
 import { privateLocalAddress,hostName } from '../../../config/app';
 const User = Models.User;
+const UserProfile = Models.UserProfile;
 import Axios from 'axios';
 //const OTPSchema = Models.OTPSchema;
 import Promise from 'bluebird';
@@ -32,7 +33,7 @@ export function login(req, res, next) {
       if (loginErr) return res.sendStatus(401);
       console.log("UID:"+user.unique_userid)
           token = jwt.sign({id:user.id}, tokenSecret, { expiresIn: 86400 });
-          return res.status(200).send({ auth: true, email: user.email, name: user.first_name, unique_userid:user.unique_userid,is_email_verified:user.is_email_verified,random_id:user.random_id,role_type:user.role_type, access_token: token });
+          return res.status(200).send({ auth: true, email: user.email, name: user.first_name, unique_userid:user.unique_userid,is_email_verified:user.is_email_verified,random_id:user.random_id,role_type:user.role_type, access_token: token,id:user.id });
          // return res.sendStatus(200);
     });
   })(req, res, next);
@@ -138,6 +139,14 @@ User.max('id').then(function(getID){
     });
     return user.save().then(() => {
       req.logIn(user, (err) => {
+        UserProfile
+        .create({
+          about:'About Me', photo:'', country:'',address:'N/A',firstName:'N/A',lastName:'N/A',portfolio:'N/A',
+          userId:user.id
+        })
+        .then(profile => {
+          console.log("profile created");
+        });
         if (err){
           return res.sendStatus(401);
         } else{

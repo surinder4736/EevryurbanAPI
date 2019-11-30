@@ -35,10 +35,16 @@ class UserProfiles {
                 UserLanguages.findAll({where:{userId:userid}}).then(lng=>{
                   data.languages=lng;
                   res.status(200).send(data);
-                }).catch(error => res.status(400).send(error));
-              }).catch(error => res.status(400).send(error));
+                }).catch(error => {
+                  res.status(200).send(data);
+                });
+              }).catch(error => {
+                res.status(200).send(data);
+              });
               
-            }).catch(error => res.status(400).send(error));
+            }).catch(error =>{
+              res.status(200).send(data);
+            });
             
 
           }).catch(error => res.status(400).send(error));
@@ -59,7 +65,7 @@ class UserProfiles {
         })
         .then((updatedProfile) => {
             res.status(200).send({
-            message: 'Language updated successfully',
+            message: 'Profile updated successfully',
             data: {
             about: about || profile.about,
             photo: photo || profile.photo,

@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "SET NODE_ENV=development&& SET PORT=5000 && nodemon --exec babel-node index.js",
-    "start": "SET NODE_ENV=production&& SET PORT=5001 && nodemon --exec babel-node index.js"
+    "start": "SET NODE_ENV=production&& SET PORT=8082 && nodemon --exec babel-node index.js"
   },
   "keywords": [
     "EVERYURBAN",
