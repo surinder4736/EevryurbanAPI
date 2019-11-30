@@ -91,7 +91,10 @@ export function logout(req, res) {
     }
 
     //return the string "MMddyy"
-    return month + day + year;
+    //"yyMMdd"
+    return month + day + year+id;
+
+    
 }
 
 
@@ -129,7 +132,7 @@ User.max('id').then(function(getID){
       user_name: email,
       email,
       password,
-      unique_userid:maxId+dateFormate,
+      unique_userid:dateFormate+maxId,
       role_type:role_type,
       terms_condition:terms_condition,
       is_email_verified:false,
