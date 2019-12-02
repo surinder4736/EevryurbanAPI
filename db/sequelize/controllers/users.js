@@ -8,6 +8,7 @@ import { throws } from 'assert';
 import { privateLocalAddress,hostName } from '../../../config/app';
 const User = Models.User;
 const UserProfile = Models.UserProfile;
+
 import Axios from 'axios';
 //const OTPSchema = Models.OTPSchema;
 import Promise from 'bluebird';
@@ -91,10 +92,7 @@ export function logout(req, res) {
     }
 
     //return the string "MMddyy"
-    //"yyMMdd"
-    return month + day + year+id;
-
-    
+    return month + day + year;
 }
 
 
@@ -132,7 +130,7 @@ User.max('id').then(function(getID){
       user_name: email,
       email,
       password,
-      unique_userid:dateFormate+maxId,
+      unique_userid:maxId+dateFormate,
       role_type:role_type,
       terms_condition:terms_condition,
       is_email_verified:false,
@@ -142,17 +140,11 @@ User.max('id').then(function(getID){
     });
     return user.save().then(() => {
       req.logIn(user, (err) => {
-        UserProfile
-        .create({
-          about:'About Me', photo:'', country:'',address:'N/A',firstName:'N/A',lastName:'N/A',portfolio:'N/A',
-          userId:user.id
-        })
-        .then(profile => {
-          console.log("profile created");
-        });
         if (err){
           return res.sendStatus(401);
         } else{
+          UserProfile.create({about:'About Me', photo:'', country:'',address:'N/A',firstName:'N/A',lastName:'N/A',portfolio:'N/A',
+userId:user.id }).then(profile => {console.log("profile created"); });
           token = jwt.sign({ id: user.id }, tokenSecret, { expiresIn: 86400 });
           //Email Api Call
           console.log("Get Token:"+token);
