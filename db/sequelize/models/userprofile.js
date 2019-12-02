@@ -30,6 +30,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true
     },
     isCompleted: DataTypes.BOOLEAN,
+    isStudent:DataTypes.BOOLEAN,
     userId: {
         type: DataTypes.INTEGER,
         references: {model: 'User',

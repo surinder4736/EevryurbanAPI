@@ -50,7 +50,7 @@ class UserProfiles {
           }).catch(error => res.status(400).send(error));
       }  
     static modify(req, res) {
-    const { about, photo, country,address,portfolio,firstName,lastName,isCompleted } = req.body
+    const { about, photo, country,address,portfolio,firstName,lastName,isCompleted,isStudent } = req.body
     return UserProfile
         .findById(req.params.id)
         .then((profile) => {
@@ -62,7 +62,8 @@ class UserProfiles {
             portfolio: portfolio || profile.portfolio,
             firstName: firstName || profile.firstName,
             lastName: lastName || profile.lastName,
-            isCompleted: isCompleted || profile.isCompleted
+            isCompleted: isCompleted || profile.isCompleted,
+            isStudent:isStudent,
         })
         .then((updatedProfile) => {
             res.status(200).send({
@@ -75,7 +76,8 @@ class UserProfiles {
             portfolio: portfolio || profile.portfolio,
             firstName: firstName || profile.firstName,
             lastName: lastName || profile.lastName,
-            isCompleted: isCompleted || profile.isCompleted
+            isCompleted: isCompleted || profile.isCompleted,
+            isStudent:isStudent || profile.isStudent
             }
             })
         })
