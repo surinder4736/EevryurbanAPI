@@ -62,7 +62,7 @@ class UserProfiles {
             portfolio: portfolio || profile.portfolio,
             firstName: firstName || profile.firstName,
             lastName: lastName || profile.lastName,
-            isCompleted: isCompleted || profile.isCompleted,
+            isCompleted: isCompleted,
             isStudent:isStudent,
         })
         .then((updatedProfile) => {
