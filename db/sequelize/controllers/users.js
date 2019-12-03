@@ -109,14 +109,24 @@ user_name, email, password, name, last_name, is_active,
 } = req.body;
 // get max id from user table
 let maxId=0;
-User.max('id').then(function(getID){
+User.max('serial_no',{where:sequelize.where(sequelize.fn('date', sequelize.col('createdAt')), '=', 'NOW')}).then(function(getID){
   if(Number.isNaN(getID)){
-    maxId=1;
+    maxId="0"+1;
     console.log("Coming ID:"+getID);
-
+    console.log("GET MAXID:"+maxId);
   }else{
-      maxId=getID+1; 
+    if(getID<10){
+      maxId="0"+(getID+1);
+      console.log("Coming ID:"+getID);
+    console.log("GET MAXID:"+maxId);
+    }else{
+      maxId=getID+1;
+      console.log("Coming ID:"+getID);
+    console.log("GET MAXID:"+maxId);
+    }
+    
   } 
+ 
 }).catch((error)=>{
   return res.status(500).send("Something went wrong"+error);
 });
@@ -136,7 +146,9 @@ User.max('id').then(function(getID){
       terms_condition:terms_condition,
       is_email_verified:false,
       isadmin: false,
-      createdAt: new Date()
+      createdAt: new Date(),
+      serial_no:maxId
+
 
     });
     return user.save().then(() => {

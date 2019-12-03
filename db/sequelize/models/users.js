@@ -34,7 +34,8 @@ export default (sequelize, DataTypes) => {
     reset_password_expires: DataTypes.DATE,
     isadmin: DataTypes.BOOLEAN,
     terms_condition:DataTypes.BOOLEAN,
-    random_id:DataTypes.STRING
+    random_id:DataTypes.STRING,
+    serial_no:DataTypes.INTEGER
     
     //company_name: DataTypes.STRING
   }, {
