@@ -366,6 +366,22 @@ export function validateToken(req, res) {
     return res.status(500).send(error);
   }
 }
+
+//Find Admin UserList Data
+export function getUserList(req,res){
+  try {
+    User.findAll({include:[{model:UserProfile}]}).then((userData)=>{
+      if(userData){
+        return res.status(200).send({user:userData});
+      }else{
+        return res.status(404).send({errorMessage:'Data not found'});
+      }
+    })
+  } catch (error) {
+    return res.status(500).send({error:error});
+  }
+}
+
 export default {
   login,
   logout,
@@ -375,5 +391,6 @@ export default {
   recoveryPasswordVerifyOTP,
   validateToken,
   emailVerify,
-  resetPasswordRequest
+  resetPasswordRequest,
+  getUserList
 };
