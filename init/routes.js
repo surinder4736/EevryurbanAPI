@@ -47,7 +47,7 @@ export default (app) => {
     app.post('/api/resetPasswordRequest', usersController.resetPasswordRequest);
     app.post('/api/user/changePassword', usersController.changePassword);
     app.get('/api/user/validateToken',usersController.validateToken);
-    app.get('/api/user/userList',usersController.getUserList);
+    
   } else {
     console.warn(unsupportedMessage('users routes'));
   }

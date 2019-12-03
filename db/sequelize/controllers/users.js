@@ -109,22 +109,13 @@ user_name, email, password, name, last_name, is_active,
 } = req.body;
 // get max id from user table
 let maxId=0;
-User.max('serial_no',{where:sequelize.where(sequelize.fn('date', sequelize.col('createdAt')), '=', 'NOW')}).then(function(getID){
+User.max('id').then(function(getID){
   if(Number.isNaN(getID)){
-    maxId="0"+1;
+    maxId=1;
     console.log("Coming ID:"+getID);
-    console.log("GET MAXID:"+maxId);
+
   }else{
-    if(getID<10){
-      maxId="0"+(getID+1);
-      console.log("Coming ID:"+getID);
-    console.log("GET MAXID:"+maxId);
-    }else{
-      maxId=getID+1;
-      console.log("Coming ID:"+getID);
-    console.log("GET MAXID:"+maxId);
-    }
-    
+      maxId=getID+1; 
   } 
 }).catch((error)=>{
   return res.status(500).send("Something went wrong"+error);
@@ -145,8 +136,7 @@ User.max('serial_no',{where:sequelize.where(sequelize.fn('date', sequelize.col('
       terms_condition:terms_condition,
       is_email_verified:false,
       isadmin: false,
-      createdAt: new Date(),
-      serial_no:maxId
+      createdAt: new Date()
 
     });
     return user.save().then(() => {
@@ -376,21 +366,6 @@ export function validateToken(req, res) {
     return res.status(500).send(error);
   }
 }
-//Find Admin UserList Data
-export function getUserList(req,res){
-  try {
-    User.findAll({include:[{model:UserProfile}]}).then((userData)=>{
-      if(userData){
-        return res.status(200).send({user:userData});
-      }else{
-        return res.status(404).send({errorMessage:'Data not found'});
-      }
-    })
-  } catch (error) {
-    return res.status(500).send({error:error});
-  }
-}
-
 export default {
   login,
   logout,
@@ -400,6 +375,5 @@ export default {
   recoveryPasswordVerifyOTP,
   validateToken,
   emailVerify,
-  resetPasswordRequest,
-  getUserList
+  resetPasswordRequest
 };
