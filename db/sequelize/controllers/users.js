@@ -370,7 +370,7 @@ export function validateToken(req, res) {
 //Find Admin UserList Data
 export function getUserList(req,res){
   try {
-    User.findAll({include:[{model:UserProfile}]}).then((userData)=>{
+    User.findAll({include:[{model:UserProfile}],order:[['id','DESC']]}).then((userData)=>{
       if(userData){
         return res.status(200).send({user:userData});
       }else{
