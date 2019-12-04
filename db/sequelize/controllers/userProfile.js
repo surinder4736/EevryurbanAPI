@@ -23,16 +23,20 @@ class UserProfiles {
     static fetchCompleteProfile(req, res) {
       const { userid } = req.params;
       console.log( req.params);
+      let id=parseInt(userid);
       let data ={profile:{},educations:[],experiances:[],languages:[]};
+      User.findOne({where:sequelize.or({id: [id]}, {unique_userid: [userid]})}).then(user=>{
+        let uid=user.id;
+        console.log("Profile user id:"+uid);
         return UserProfile
-          .findOne({where:{userId:userid}})
+          .findOne({where:{userId:uid}})
           .then(profile => {
             data.profile=profile;
-            UserExperiance.findAll({where:{userId:userid}}).then(exp=>{
+            UserExperiance.findAll({where:{userId:uid}}).then(exp=>{
               data.experiances=exp;
-              UserEducation.findAll({where:{userId:userid}}).then(edu=>{
+              UserEducation.findAll({where:{userId:uid}}).then(edu=>{
                 data.educations=edu;
-                UserLanguages.findAll({where:{userId:userid}}).then(lng=>{
+                UserLanguages.findAll({where:{userId:uid}}).then(lng=>{
                   data.languages=lng;
                   res.status(200).send(data);
                 }).catch(error => {
@@ -48,6 +52,7 @@ class UserProfiles {
             
 
           }).catch(error => res.status(400).send(error));
+      })  
       }  
     static modify(req, res) {
     const { about, photo, country,address,portfolio,firstName,lastName,isCompleted,isStudent } = req.body
