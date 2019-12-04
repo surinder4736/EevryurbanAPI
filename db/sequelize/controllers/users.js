@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import * as config from '../constants';
 import { Models, sequelize } from '../models';
 import { tokenSecret } from '../constants';
-import moment from 'moment';
+import moment, { now } from 'moment';
 import { throws } from 'assert';
 import { privateLocalAddress,hostName } from '../../../config/app';
 const User = Models.User;
@@ -379,6 +379,21 @@ export function validateToken(req, res) {
   }
 }
 
+//Find Admin UserList Data
+export function getUserList(req,res){
+  try {
+    User.findAll({include:[{model:UserProfile}]}).then((userData)=>{
+      if(userData){
+        return res.status(200).send({user:userData});
+      }else{
+        return res.status(404).send({errorMessage:'Data not found'});
+      }
+    })
+  } catch (error) {
+    return res.status(500).send({error:error});
+  }
+}
+
 export default {
   login,
   logout,
@@ -388,5 +403,6 @@ export default {
   recoveryPasswordVerifyOTP,
   validateToken,
   emailVerify,
-  resetPasswordRequest
+  resetPasswordRequest,
+  getUserList
 };
