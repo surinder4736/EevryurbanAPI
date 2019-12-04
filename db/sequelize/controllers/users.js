@@ -34,7 +34,7 @@ export function login(req, res, next) {
       if (loginErr) return res.sendStatus(401);
       console.log("UID:"+user.unique_userid)
           token = jwt.sign({id:user.id}, tokenSecret, { expiresIn: 86400 });
-          return res.status(200).send({ auth: true, email: user.email, name: user.first_name, unique_userid:user.unique_userid,is_email_verified:user.is_email_verified,random_id:user.random_id,role_type:user.role_type, access_token: token,id:user.id });
+          return res.status(200).send({ auth: true, email: user.email, name: user.first_name, unique_userid:user.unique_userid,is_email_verified:user.is_email_verified,random_id:user.random_id,role_type:user.role_type, access_token: token,id:user.id,isadmin:user.isadmin });
          // return res.sendStatus(200);
     });
   })(req, res, next);
