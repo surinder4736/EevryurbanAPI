@@ -15,6 +15,13 @@ module.exports = (sequelize, DataTypes) => {
       },
       type: DataTypes.STRING
     },
+    program: {
+      allowNull: {
+        args: false,
+        msg: 'Please enter the program name'
+      },
+      type: DataTypes.STRING
+    },
     description: {
       allowNull: true,
       type: DataTypes.STRING

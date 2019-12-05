@@ -3,11 +3,11 @@ const { UserEducation,User } = Models;
 
 class UserEducations {
   static create(req, res) {
-    const { title, program, start_date,end_date } = req.body
+    const { title, program, start_date,end_date,location,description } = req.body
     const { userId } = req.params
     return UserEducation
       .create({
-        title, program,start_date,end_date,
+        title, program,start_date,end_date,location,description,
         userId
       })
       .then(education => res.status(201).send({
@@ -21,13 +21,17 @@ class UserEducations {
           .then(educations => res.status(200).send(educations));
       }
     static modify(req, res) {
-    const { title, program, start_date,end_date } = req.body
+    const { title, program, start_date,end_date,location,description } = req.body
+    console.log('Education location : '+ location);
+    console.log('Education description : '+ description);
     return UserEducation
         .findById(req.params.id)
         .then((education) => {
           education.update({
           title: title || education.title,
           program: program || education.program,
+          location: location || education.location,
+          description: description || education.description,
           start_date: start_date || education.start_date,
           end_date: end_date
         })
@@ -37,6 +41,8 @@ class UserEducations {
             data: {
                 title: title || updatedEducation.title,
                 program: program || updatedEducation.program,
+                location: location || updatedEducation.location,
+                description: description || updatedEducation.description,
                 start_date: start_date || updatedEducation.start_date,
                 end_date: end_date || updatedEducation.end_date
             }

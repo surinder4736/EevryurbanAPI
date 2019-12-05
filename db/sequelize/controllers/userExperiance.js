@@ -3,11 +3,11 @@ const { UserExperiance,User } = Models;
 
 class UserExperiances {
   static create(req, res) {
-    const { title, description, location,start_date,end_date } = req.body
+    const { title, description, location,start_date,end_date,program } = req.body
     const { userId } = req.params
     return UserExperiance
       .create({
-        title, description, location,start_date,end_date,
+        title, description, location,start_date,end_date,program,
         userId
       })
       .then(experiance => res.status(201).send({
@@ -21,7 +21,7 @@ class UserExperiances {
           .then(experiances => res.status(200).send(experiances));
       }
     static modify(req, res) {
-    const { title, description, location,start_date,end_date } = req.body
+    const { title, description, location,start_date,end_date,program } = req.body
     return UserExperiance
         .findById(req.params.id)
         .then((experiance) => {
@@ -29,6 +29,7 @@ class UserExperiances {
           title: title || experiance.title,
           description: description || experiance.description,
           location: location || location.location,
+          program: program || experiance.program,
           start_date: start_date || experiance.start_date,
           end_date: end_date
         })
@@ -37,6 +38,7 @@ class UserExperiances {
             message: 'Experiance updated successfully',
             data: {
                 title: title || updatedExperiance.title,
+                program: program || updatedExperiance.program,
                 start_date: start_date || updatedExperiance.start_date,
                 end_date: end_date || updatedExperiance.end_date
             }
