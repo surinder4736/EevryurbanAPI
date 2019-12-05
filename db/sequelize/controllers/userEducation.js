@@ -41,8 +41,8 @@ class UserEducations {
             data: {
                 title: title || updatedEducation.title,
                 program: program || updatedEducation.program,
-                location: location || education.location,
-                description: description || education.description,
+                location: location || updatedEducation.location,
+                description: description || updatedEducation.description,
                 start_date: start_date || updatedEducation.start_date,
                 end_date: end_date || updatedEducation.end_date
             }
