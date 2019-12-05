@@ -15,6 +15,17 @@ module.exports = (sequelize, DataTypes) => {
       },
       type: DataTypes.STRING
     },
+    location: {
+      allowNull: {
+        args: false,
+        msg: 'Please enter the location'
+      },
+      type: DataTypes.STRING
+    },
+    description: {
+      allowNull: true,
+      type: DataTypes.STRING
+    },
     start_date: {
       allowNull: {
         args: false,
