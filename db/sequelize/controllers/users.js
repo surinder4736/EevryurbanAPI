@@ -156,7 +156,7 @@ User.max('serial_no',{where:sequelize.where(sequelize.fn('date', sequelize.col('
         if (err){
           return res.sendStatus(401);
         } else{
-          UserProfile.create({about:'About Me', photo:'', country:'',address:'',firstName:'',lastName:'',portfolio:'',
+          UserProfile.create({about:'About Me', photo:'', country:'',address:'',firstName:'',lastName:'',portfolio:'',isStudent:false,isCompleted:false,
 userId:user.id }).then(profile => {console.log("profile created"); });
           token = jwt.sign({ id: user.id }, tokenSecret, { expiresIn: 86400 });
           //Email Api Call
