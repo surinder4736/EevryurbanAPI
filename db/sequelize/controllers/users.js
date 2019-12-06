@@ -202,7 +202,7 @@ function randomID(length) {
       console.log("send verifiy success"+result)
       //api
       User.findOne({where : { email }}).then((user)=>{
-        Axios.post(privateLocalAddress+'/api/successConfimation', {email:email,unique_userid:user.unique_userid,random_id:RID}).then((response)=>{
+        Axios.post(privateLocalAddress+'/api/successConfimation', {email:email,unique_userid:user.unique_userid,random_id:RID,role_type:user.role_type}).then((response)=>{
           console.log('Sent email verification');
          }).catch((err) => {
           logger.error(err.stack);
