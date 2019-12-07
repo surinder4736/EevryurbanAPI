@@ -22,8 +22,6 @@ class UserEducations {
       }
     static modify(req, res) {
     const { title, program, start_date,end_date,location,description } = req.body
-    console.log('Education location : '+ location);
-    console.log('Education description : '+ description);
     return UserEducation
         .findById(req.params.id)
         .then((education) => {

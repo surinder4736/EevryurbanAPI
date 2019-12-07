@@ -156,7 +156,7 @@ User.max('serial_no',{where:sequelize.where(sequelize.fn('date', sequelize.col('
         if (err){
           return res.sendStatus(401);
         } else{
-          UserProfile.create({about:'About Me', photo:'', country:'',address:'',firstName:'',lastName:'',portfolio:'',isStudent:false,isCompleted:false,
+          UserProfile.create({about:'', photo:'', country:'',address:'',firstName:'',lastName:'',portfolio:'',isStudent:false,isCompleted:false,
 userId:user.id }).then(profile => {console.log("profile created"); });
           token = jwt.sign({ id: user.id }, tokenSecret, { expiresIn: 86400 });
           //Email Api Call
@@ -202,7 +202,7 @@ function randomID(length) {
       console.log("send verifiy success"+result)
       //api
       User.findOne({where : { email }}).then((user)=>{
-        Axios.post(privateLocalAddress+'/api/successConfimation', {email:email,unique_userid:user.unique_userid,random_id:RID}).then((response)=>{
+        Axios.post(privateLocalAddress+'/api/successConfimation', {email:email,unique_userid:user.unique_userid,random_id:RID,role_type:user.role_type}).then((response)=>{
           console.log('Sent email verification');
          }).catch((err) => {
           logger.error(err.stack);
