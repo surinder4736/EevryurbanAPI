@@ -13,6 +13,7 @@ import Axios from 'axios';
 //const OTPSchema = Models.OTPSchema;
 import Promise from 'bluebird';
 import bcryptNode from 'bcrypt-nodejs';
+import { get } from 'http';
 const bcrypt = Promise.promisifyAll(bcryptNode);
 /**
  * POST /login
@@ -194,23 +195,30 @@ function randomID(length) {
 //Email Verify
  export function emailVerify(req,res,next){
    try {
-     const RID=randomID(15);
      const{email}=req.body;
+     User.findOne({where:{email}}).then((getUser)=>{
+       if(getUser!=null && getUser.is_email_verified=="false"){
+        const RID=randomID(15);
+        User.update({is_email_verified:true,random_id:RID},{where : { email: email}}).then((result)=>{
+          console.log("send verifiy success"+result)
+          //api
+          User.findOne({where : { email }}).then((user)=>{
+            Axios.post(privateLocalAddress+'/api/successConfimation', {email:email,unique_userid:user.unique_userid,random_id:RID,role_type:user.role_type}).then((response)=>{
+              console.log('Sent email verification');
+             }).catch((err) => {
+              logger.error(err.stack);
+              console.log('Error in sending Email');
+            });
+          })
+          res.status(200).send({successMsg:"Email Verified successfully",status:200,user:getUser});
+         });
+       }else{
+            res.status(200).send({error:"AlreadyVerified",massageStaus:500,user:getUser});
+       }
+     })
      console.log("Param Email:"+email);
      //const userId="";
-     User.update({is_email_verified:true,random_id:RID},{where : { email: email}}).then((result)=>{
-      console.log("send verifiy success"+result)
-      //api
-      User.findOne({where : { email }}).then((user)=>{
-        Axios.post(privateLocalAddress+'/api/successConfimation', {email:email,unique_userid:user.unique_userid,random_id:RID,role_type:user.role_type}).then((response)=>{
-          console.log('Sent email verification');
-         }).catch((err) => {
-          logger.error(err.stack);
-          console.log('Error in sending Email');
-        });
-      })
-      res.status(200).send({successMsg:"Email Verified successfully",status:200});
-     });
+     
    } catch (error) {
     res.status(500).send('We failed to save for some reason'+error);
    }
