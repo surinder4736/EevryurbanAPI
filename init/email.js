@@ -58,11 +58,14 @@ app.post('/api/sendSignUpEmail', (req, res, next) => {
 // Send Mail After confirming email and random profile_id and stored in database
 app.post('/api/successConfimation', (req, res, next) => {
   const{email,unique_userid,random_id,role_type}=req.body;
+  let developerMsg="Someone will get in touch with you soon."; 
+  let architectMsg="To start recieving projects,please complete your profile.";
+  let emailMsg=(role_type=="developer") ? developerMsg : architectMsg;
   const randomProfileUrl=(role_type=="developer") ? `${hostName}/developer` : `${hostName}/profile/${unique_userid}/${random_id}`;
     app.mailer.send('emailVerificationSuccess', {
     to: email,
     subject: `EveryUrban-Email successfully validated`,
-    data:{profileUrl:randomProfileUrl}
+    data:{profileUrl:randomProfileUrl,Message:emailMsg}
   }, (err) => {
     if (err) {
       res.send({errorMessage:'There was an error sending the email',errorInfo:err});
