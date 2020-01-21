@@ -1,3 +1,4 @@
+require('@google-cloud/debug-agent').start();
 import express from 'express';
 import { isDebug } from './config/app';
 import { connect } from './db';
@@ -10,6 +11,7 @@ import errorHandler from  'express-error-handler';
 var enableWs =require('express-ws');
 const app = express();
 enableWs(app);
+
 // var expressWs = require('express-ws')(app);
 //expressWs(app);
 app.use(errorHandler({ dumpExceptions: true, showStack: true })); 

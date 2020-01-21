@@ -1,0 +1,10 @@
+runtime: nodejs
+service: everyurban-api
+env: flex
+#manual_scaling:
+#  instances: 1
+#network:
+#  forwarded_ports:
+#    - 8080/tcp
+beta_settings:
+  cloud_sql_instances: heroic-calculus-263602:us-east1:everyurban-mvp=tcp:5432
