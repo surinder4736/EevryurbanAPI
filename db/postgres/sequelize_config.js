@@ -18,9 +18,9 @@ module.exports = {
   },
   production: {
     username: envVars.postgres.username || 'postgres',
-    password:envVars.postgres.password || '123456',
+    password:envVars.postgres.password || 'everyurban2020',
     database:envVars.postgres.database || 'every_urban',
-    host: envVars.postgres.server || '192.168.1.101',
+    host: envVars.postgres.server || '172.17.0.1',
     dialect: 'postgres'
   },
   staging: {
