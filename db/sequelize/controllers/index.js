@@ -4,6 +4,7 @@ import userExperiance from './userExperiance';
 import userLanguages from './userLanguages';
 import userEducation from './userEducation';
 import userProfile from './userProfile';
+import tableCode from './tableCode';
 
 export default {
   topics,
@@ -11,6 +12,7 @@ export default {
   userExperiance,
   userLanguages,
   userEducation,
-  userProfile
+  userProfile,
+  tableCode
  
 };

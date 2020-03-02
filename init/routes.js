@@ -11,6 +11,7 @@ const userExperiance = controllers && controllers.userExperiance;
 const UserLanguage = controllers && controllers.userLanguages;
 const userProfile = controllers && controllers.userProfile;
 const userEducation = controllers && controllers.userEducation;
+const tableCode = controllers && controllers.tableCode;
 
 
 
@@ -79,6 +80,14 @@ export default (app) => {
     app.delete('/api/users/:userid/:id/education', userEducation.delete);
     app.get('/api/users/:userid/education', userEducation.list);
   }
+
+  if(tableCode) {
+    app.post('/api/code/saveCode', tableCode.create); // API route for user to create a book
+    app.post('/api/code/modifyCode', tableCode.modifyCode);
+    app.delete('/api/code/deleteCod/:id', tableCode.deleteCode);
+    app.get('/api/code/getAll', tableCode.getCodeList);
+  }
+
   if (passportConfig && passportConfig.google) {
     // google auth
     // Redirect the user to Google for authentication. When complete, Google
