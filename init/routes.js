@@ -12,6 +12,7 @@ const UserLanguage = controllers && controllers.userLanguages;
 const userProfile = controllers && controllers.userProfile;
 const userEducation = controllers && controllers.userEducation;
 const tableCode = controllers && controllers.tableCode;
+const contactUs = controllers && controllers.contactUs;
 
 
 
@@ -86,6 +87,11 @@ export default (app) => {
     app.post('/api/code/modifyCode', tableCode.modifyCode);
     app.delete('/api/code/deleteCod/:id', tableCode.deleteCode);
     app.get('/api/code/getAll', tableCode.getCodeList);
+  }
+
+  if(contactUs) {
+    app.post('/api/contactus/save', contactUs.create); // API route for user to create a book
+    
   }
 
   if (passportConfig && passportConfig.google) {

@@ -9,6 +9,7 @@ import userExperianceModel from './userexperiance';
 import userEducationModel from './usereducation';
 import userProfileModel from './userprofile';
 import tableCodeModel from './tbl_code';
+import contactUsModal from './tbl_contactus';
 
 const config = ENV ==='production'? sequelizeConfig.production : sequelizeConfig.development;
 
@@ -25,6 +26,7 @@ db.UserExperiance = sequelize.import('UserExperiance',userExperianceModel);
 db.UserProfile = sequelize.import('UserProfile',userProfileModel);
 db.UserEducation = sequelize.import('UserEducation',userEducationModel);
 db.tableCode = sequelize.import('TableCode',tableCodeModel);
+db.contactUs = sequelize.import('ContactUs',contactUsModal);
 Object.keys(db).forEach((key) => {
   const model = db[key];
   if (model.associate) {
