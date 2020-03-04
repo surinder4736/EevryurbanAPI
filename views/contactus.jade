@@ -20,21 +20,29 @@ html
       border-radius:8px;
       }
       p{
-        text-decoration:none;
+      text-decoration:none;
       }
+  |   
   body
     .wrapper
       .logo
         img(src='http://everyurban.com/wp-content/uploads/2018/08/logo-everyurban.png')
       | &#x9;
-      p #{data.greet}
       | &#x9;
-      p
-        | Thank you for submitting your query we will sortly contact you.
+      //- p Hello! #{data.email}
       | &#x9;
-      .linkButton
-        br
+      .ct-body
+        p
+          | First Name : #{data.fname}
         | &#x9;
+        p
+          | Second Name : #{data.lname}
         | &#x9;
-        br
-        br
+        p
+          | Email Address : #{data.email}
+        | &#x9;
+        p
+          | Enquiry Type : #{data.enquiry_type}
+        | &#x9;
+        p
+          | Message : #{data.message}

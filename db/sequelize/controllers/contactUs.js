@@ -12,7 +12,7 @@ class ContactUs {
       contactUs.create({fname,lname,email,enquiry_type,message})
       .then((result)=>{
        if(result){
-        Axios.post(privateLocalAddress+'/api/sendContactusEmail', {email:email,enquiry_type:enquiry_type}).then((response)=>{
+        Axios.post(privateLocalAddress+'/api/sendContactusEmail', {fname:fname,lname:lname,email:email,enquiry_type:enquiry_type,message:message}).then((response)=>{
           if(response){
           console.log('Sent email verification');
           //console.log(response);
