@@ -5,6 +5,7 @@ import userLanguages from './userLanguages';
 import userEducation from './userEducation';
 import userProfile from './userProfile';
 import tableCode from './tableCode';
+import contactUs from './contactUs';
 
 export default {
   topics,
@@ -13,6 +14,7 @@ export default {
   userLanguages,
   userEducation,
   userProfile,
-  tableCode
+  tableCode,
+  contactUs
  
 };
