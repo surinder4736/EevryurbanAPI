@@ -1,6 +1,6 @@
 import { Models, sequelize } from '../models';
 import Axios from 'axios';
-import { privateLocalAddress } from '../../../config/env';
+import { privateLocalAddress,CONATACTUS_TO_EMAIL as contactus_email} from '../../../config/env';
 const { contactUs } = Models;
 class ContactUs {
   static create(req, res) {
@@ -12,7 +12,7 @@ class ContactUs {
       contactUs.create({fname,lname,email,enquiry_type,message})
       .then((result)=>{
        if(result){
-        Axios.post(privateLocalAddress+'/api/sendContactusEmail', {fname:fname,lname:lname,email:email,enquiry_type:enquiry_type,message:message}).then((response)=>{
+        Axios.post(privateLocalAddress+'/api/sendContactusEmail', {fname:fname,lname:lname,email:email,enquiry_type:enquiry_type,message:message,contactus:contactus_email}).then((response)=>{
           if(response){
           console.log('Sent email verification');
           //console.log(response);
