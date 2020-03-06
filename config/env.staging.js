@@ -9,6 +9,7 @@ export const SMTP_PORT =465;
 export const SMTP_USERNAME = 'munna.bhakta1001@gmail.com';
 export const SMTP_PASSWORD = 'rrguuftkqwdoxuav';
 export const PRO_ENQUIRY_BccEmail = 'munna.bhakta1001@gmail.com';
+export const EMAIL_CC='assist@everyurban.com';
 export const CONATACTUS_TO_EMAIL = 'cheeku.swami@gmail.com'; // for conatact us 
 export const SMTP_SECURE = true;
 export const postgres = {username:'postgres',server:'192.168.1.101',password:'123456',database:'every_urban'};

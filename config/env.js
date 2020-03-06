@@ -12,6 +12,7 @@ export const SMTP_USERNAME = envVars.SMTP_USERNAME;
 export const SMTP_PASSWORD = envVars.SMTP_PASSWORD;
 export const PRO_ENQUIRY_BccEmail = envVars.PRO_ENQUIRY_BccEmail;
 export const CONATACTUS_TO_EMAIL = envVars.CONATACTUS_TO_EMAIL;
+export const EMAIL_CC = envVars.EMAIL_CC;
 export const SMTP_SECURE = envVars.SMTP_SECURE;
 export const postgres =envVars.postgres;
 export const hostName = envVars.hostName;

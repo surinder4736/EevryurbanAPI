@@ -10,6 +10,7 @@ export const SMTP_USERNAME = 'munna.bhakta1001@gmail.com';
 export const SMTP_PASSWORD = 'rrguuftkqwdoxuav';
 export const PRO_ENQUIRY_BccEmail = 'munna.bhakta1001@gmail.com';
 export const CONATACTUS_TO_EMAIL = 'anish15.786@gmail.com'; // for contactus
+export const EMAIL_CC='surinderkumardhanju@gmail.com';
 export const SMTP_SECURE = true;
 export const postgres = {username:'postgres',server:'192.168.1.101',password:'',database:'every_urban'};
 export const hostName ="http://localhost:3000";

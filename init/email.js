@@ -98,10 +98,11 @@ app.post('/api/resetPassword', (req, res, next) => {
 // Send Mail Against when After ContactUs..
 app.post('/api/sendContactusEmail', (req, res, next) => {
   console.log("contact us email API");
-  const{fname,lname,email,enquiry_type,message,contactus}=req.body;
+  const{fname,lname,email,enquiry_type,message,contactus,email_cc}=req.body;
   console.log(req.body.email);
     app.mailer.send('contactus', {
     to: contactus,
+    cc:email_cc,
     subject: `Contact Us - ${enquiry_type}`,
     data:{fname:fname,lname:lname,email:email,enquiry_type:enquiry_type,message:message}
   }, (err) => {

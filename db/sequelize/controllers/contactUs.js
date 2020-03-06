@@ -1,6 +1,6 @@
 import { Models, sequelize } from '../models';
 import axios from 'axios';
-import { privateLocalAddress,CONATACTUS_TO_EMAIL as contactus_email} from '../../../config/env';
+import { privateLocalAddress,CONATACTUS_TO_EMAIL as contactus_email,EMAIL_CC as cc_email} from '../../../config/env';
 const { contactUs } = Models;
 class ContactUs {
   static create(req, res) {
@@ -13,7 +13,7 @@ class ContactUs {
       .then((result)=>{
        if(result){
           console.log("private adress: " +privateLocalAddress);
-          axios.post(privateLocalAddress+'/api/sendContactusEmail', {fname:fname,lname:lname,email:email,enquiry_type:enquiry_type,message:message,contactus:contactus_email}).then((response)=>{
+          axios.post(privateLocalAddress+'/api/sendContactusEmail', {fname:fname,lname:lname,email:email,enquiry_type:enquiry_type,message:message,contactus:contactus_email,email_cc:cc_email}).then((response)=>{
           if(response){
             console.log('Sent email verification');
             //console.log(response);
