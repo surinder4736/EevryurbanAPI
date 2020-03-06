@@ -21,7 +21,7 @@ class ContactUs {
          }).catch((err) => {
          console.log('Error in sending Email'+err);
          });
-        return res.status(200).send({successMessage:'Thank you for submitting your query we will sortly contact you.',status:200,codeExecute:'Save'});
+        return res.status(200).send({successMessage:'Thank you for reaching out to us. We will contact you as soon as possible.',status:200,codeExecute:'Save'});
        } 
       }).catch((error)=>{
         console.log("Sorry something went wrong");
