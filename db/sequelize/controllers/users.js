@@ -160,14 +160,12 @@ User.max('serial_no',{where:sequelize.where(sequelize.fn('date', sequelize.col('
           UserProfile.create({about:'', photo:'', country:'',address:'',firstName:'',lastName:'',portfolio:'',isStudent:false,isCompleted:false,
 userId:user.id }).then(profile => {console.log("profile created"); });
           token = jwt.sign({ id: user.id }, tokenSecret, { expiresIn: 86400 });
-          //Email Api Call
+          console.log("Email Api Call");
           console.log("Get Token:"+token);
           Axios.post(privateLocalAddress+'/api/sendSignUpEmail', {email:user.email}).then((response)=>{
             console.log('Sent email verification');
            }).catch((err) => {
-            logger.error(err.stack);
             console.log('Error in sending Email');
-           
           });
           return res.status(200).send({ auth: true, email: user.email, name: user.first_name, company_name: user.company_name, access_token: token,success_msg:'OK',statusCode:200,is_email_verified:user.is_email_verified,unique_userid:user.unique_userid,random_id:user.random_id,role_type:user.role_type });
         }
