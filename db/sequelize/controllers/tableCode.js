@@ -1,5 +1,6 @@
 import { Models, sequelize } from '../models';
 const { tableCode } = Models;
+const { User } = Models;
 
 class TableCode {
   
@@ -81,15 +82,28 @@ class TableCode {
               message: 'Data Not Found',
               });
             }
-            return data.destroy()
+            const{code}=data;
+            console.log("-----code--------");
+            console.log(code);
+            User.findOne({where:{code}}).then((CodeResult)=>{
+                if(CodeResult){
+                  console.log("Sorry you can not delete registered code");
+                  return res.status(409).send({errorMessage:'Can not delete this record as user record already exists using this code.',codeExecute:'Denied'})
+            }else{
+              console.log("------code not found--------");
+              return data.destroy()
                 .then(() => res.status(200).send({
                   successMessage: 'Data successfully deleted',
                   codeExecute:'Delete',
                   status:200
-              }))
-              .catch(error => res.status(400).send(error));
-          })
-          .catch(error => res.status(400).send(error))
+              })).catch(error => res.status(400).send(error));
+              
+            }
+            }).catch((error)=>{
+              return res.status(501).send(error);
+            });
+            
+          }).catch(error => res.status(400).send(error))
       }
 
 }

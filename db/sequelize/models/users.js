@@ -35,7 +35,8 @@ export default (sequelize, DataTypes) => {
     isadmin: DataTypes.BOOLEAN,
     terms_condition:DataTypes.BOOLEAN,
     random_id:DataTypes.STRING,
-    serial_no:DataTypes.INTEGER
+    serial_no:DataTypes.INTEGER,
+    code:DataTypes.STRING
     
     //company_name: DataTypes.STRING
   }, {

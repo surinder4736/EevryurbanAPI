@@ -8,6 +8,7 @@ import { throws } from 'assert';
 import { privateLocalAddress,hostName } from '../../../config/app';
 const User = Models.User;
 const UserProfile = Models.UserProfile;
+const TableCode = Models.tableCode;
 
 import Axios from 'axios';
 //const OTPSchema = Models.OTPSchema;
@@ -35,7 +36,7 @@ export function login(req, res, next) {
       if (loginErr) return res.sendStatus(401);
       console.log("UID:"+user.unique_userid)
           token = jwt.sign({id:user.id}, tokenSecret, { expiresIn: 86400 });
-          return res.status(200).send({ auth: true, email: user.email, name: user.first_name, unique_userid:user.unique_userid,is_email_verified:user.is_email_verified,random_id:user.random_id,role_type:user.role_type, access_token: token,id:user.id,isadmin:user.isadmin });
+          return res.status(200).send({ auth: true, email: user.email, name: user.first_name, unique_userid:user.unique_userid,is_email_verified:user.is_email_verified,random_id:user.random_id,role_type:user.role_type, access_token: token,id:user.id,isadmin:user.isadmin,code:user.code });
          // return res.sendStatus(200);
     });
   })(req, res, next);
@@ -106,7 +107,7 @@ export function signUp(req, res, next) {
 user_name, email, password, name, last_name, is_active,
     secure_token, is_email_verified, phone_number, is_phone_verified,
     reset_password_token, reset_password_expires,
-    isadmin,unique_userid,role_type,terms_condition
+    isadmin,unique_userid,role_type,terms_condition,code
 } = req.body;
 // get max id from user table
 let maxId=0;
@@ -148,29 +149,41 @@ User.max('serial_no',{where:sequelize.where(sequelize.fn('date', sequelize.col('
       is_email_verified:false,
       isadmin: false,
       createdAt: new Date(),
-      serial_no:maxId
+      serial_no:maxId,
+      code:code
 
 
     });
-    return user.save().then(() => {
-      req.logIn(user, (err) => {
-        if (err){
-          return res.sendStatus(401);
-        } else{
-          UserProfile.create({about:'', photo:'', country:'',address:'',firstName:'',lastName:'',portfolio:'',isStudent:false,isCompleted:false,
-userId:user.id }).then(profile => {console.log("profile created"); });
-          token = jwt.sign({ id: user.id }, tokenSecret, { expiresIn: 86400 });
-          console.log("Email Api Call");
-          console.log("Get Token:"+token);
-          Axios.post(privateLocalAddress+'/api/sendSignUpEmail', {email:user.email}).then((response)=>{
-            console.log('Sent email verification');
-           }).catch((err) => {
-            console.log('Error in sending Email');
-          });
-          return res.status(200).send({ auth: true, email: user.email, name: user.first_name, company_name: user.company_name, access_token: token,success_msg:'OK',statusCode:200,is_email_verified:user.is_email_verified,unique_userid:user.unique_userid,random_id:user.random_id,role_type:user.role_type });
-        }
+    TableCode.findOne({where:{code}}).then((codeResult)=>{
+      if(codeResult){
+        //console.log(codeResult);
+        return user.save().then(() => {
+          req.logIn(user, (err) => {
+            if (err){
+              return res.sendStatus(401);
+            } else{
+              UserProfile.create({about:'', photo:'', country:'',address:'',firstName:'',lastName:'',portfolio:'',isStudent:false,isCompleted:false,
+    userId:user.id }).then(profile => {console.log("profile created"); });
+              token = jwt.sign({ id: user.id }, tokenSecret, { expiresIn: 86400 });
+              console.log("Email Api Call");
+              console.log("Get Token:"+token);
+              Axios.post(privateLocalAddress+'/api/sendSignUpEmail', {email:user.email}).then((response)=>{
+                console.log('Sent email verification');
+               }).catch((err) => {
+                console.log('Error in sending Email');
+              });
+              return res.status(200).send({ auth: true, email: user.email, name: user.first_name, company_name: user.company_name, access_token: token,success_msg:'OK',statusCode:200,is_email_verified:user.is_email_verified,unique_userid:user.unique_userid,random_id:user.random_id,role_type:user.role_type,code:code });
+            }
+            });
         });
-    });
+      }else{
+        return res.status(404).send({errorMessage:'Sorry entered code is invalid',codeExcute:'Invalid',status:404})
+      }
+    }).catch((error)=>{
+      return res.status(501).send({errorMessage:error,status:501})
+    })
+    
+
   }).catch(err => next(err));
 }catch(error){
   return res.status(500).send({errorMessage:error.message});
