@@ -93,7 +93,7 @@ class TableCode {
               console.log("------code not found--------");
               return data.destroy()
                 .then(() => res.status(200).send({
-                  successMessage: 'Data successfully deleted',
+                  successMessage: 'Code successfully deleted',
                   codeExecute:'Delete',
                   status:200
               })).catch(error => res.status(400).send(error));
