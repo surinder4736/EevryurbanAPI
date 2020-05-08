@@ -154,7 +154,7 @@ User.max('serial_no',{where:sequelize.where(sequelize.fn('date', sequelize.col('
 
 
     });
-    TableCode.findOne({where:{code:sequelize.where(sequelize.fn('LOWER', sequelize.col('asset_name')),sequelize.fn('LOWER', code))}}).then((codeResult)=>{
+    TableCode.findOne({where:{code:sequelize.where(sequelize.fn('LOWER', sequelize.col('code')),sequelize.fn('LOWER', code))}}).then((codeResult)=>{
       if(codeResult){
         //console.log(codeResult);
         return user.save().then(() => {

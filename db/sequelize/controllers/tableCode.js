@@ -9,7 +9,7 @@ class TableCode {
     console.log("---Request body Coming Data---");
     console.log(code+""+label+""+type)
     if(id==0){
-      tableCode.create({code,label,type})
+      tableCode.create({code:code.toUpperCase(),label,type})
       .then((result)=>{
        if(result){
              return res.status(200).send({successMessage:'Code Saved successfully',status:200,codeExecute:'Save'});
@@ -22,7 +22,7 @@ class TableCode {
       })
     }else{
       tableCode.findOne({where:{id}}).then((resultData)=>{
-           tableCode.update({code:code,label:label,type:type},{where:{id}}).then((result)=>{
+           tableCode.update({code:code.toUpperCase(),label:label,type:type},{where:{id}}).then((result)=>{
             return res.status(200).send({successMessage:'Code Updated successfully',status:200,codeExecute:'Update' });
             }).catch((error)=>{
            const{original}=error;
