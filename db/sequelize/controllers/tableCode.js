@@ -17,8 +17,15 @@ class TableCode {
          return res.status(404).send({errorMessage:'Sorry data not found',status:404});
        } 
       }).catch((error)=>{
-        console.log("Sorry something went wrong");
-         return res.status(501).send({errorMessage:error,status:501});
+        // console.log("Sorry something went wrong");
+        // return res.status(501).send({errorMessage:error,status:501});
+        const{original}=error;
+        if(original!=null && original.code=="23505"){
+          return res.status(501).send({errorMessage:'Sorry this code alredy exist',status:501});
+        }else{
+          // console.log(original.code);
+          return res.status(501).send({errorMessage:'Sorry something went wrong '+error,status:501});
+        }
       })
     }else{
       tableCode.findOne({where:{id}}).then((resultData)=>{
