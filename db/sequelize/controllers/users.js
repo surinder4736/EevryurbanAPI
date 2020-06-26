@@ -413,6 +413,23 @@ export function getUserList(req,res){
   }
 }
 
+export function deleteuser(req, res) {
+  User.findOne({ where: { unique_userid:req.params.id }}).then((existingUser)=>{
+    if(existingUser){
+      existingUser.destroy().then(()=>
+      User.findAll({include:[{model:UserProfile}],order:[['id','DESC']]}).then((userData)=>{
+        if(userData){
+          return res.status(200).send({user:userData});
+        }else{
+          return res.status(404).send({errorMessage:'Data not found'});
+        }
+        })
+      )
+    }
+  })
+    
+}
+
 export default {
   login,
   logout,
@@ -423,5 +440,6 @@ export default {
   validateToken,
   emailVerify,
   resetPasswordRequest,
-  getUserList
+  getUserList,
+  deleteuser
 };
