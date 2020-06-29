@@ -111,6 +111,7 @@ user_name, email, password, name, last_name, is_active,
 } = req.body;
 // get max id from user table
 let maxId=0;
+console.log("Refferl code : "+code);
 User.max('serial_no',{where:sequelize.where(sequelize.fn('date', sequelize.col('createdAt')), '=', 'NOW')}).then(function(getID){
   if(Number.isNaN(getID)){
     maxId="0"+1;
@@ -126,19 +127,16 @@ User.max('serial_no',{where:sequelize.where(sequelize.fn('date', sequelize.col('
       console.log("Coming ID:"+getID);
     console.log("GET MAXID:"+maxId);
     }
-    
   } 
- 
-}).catch((error)=>{
-  return res.status(500).send("Something went wrong"+error);
-});
-     // find the user if exist then can not be signup..
+  }).catch((error)=>{
+    return res.status(500).send("Something went wrong"+error);
+  });
+  // find the user if exist then can not be signup..
   User.findOne({ where: { email } }).then((existingUser) => {
     if (existingUser) {
       console.log("User Already exist")
       return res.status(409).send({errorMessage: 'Sorry this user already exist',statusCode:409,existMsg:'Exist'});
     }
-
     const user = User.build({
       user_name: email,
       email,
@@ -151,39 +149,62 @@ User.max('serial_no',{where:sequelize.where(sequelize.fn('date', sequelize.col('
       createdAt: new Date(),
       serial_no:maxId,
       code:code
-
-
     });
-    TableCode.findOne({where:{code:sequelize.where(sequelize.fn('LOWER', sequelize.col('code')),sequelize.fn('LOWER', code))}}).then((codeResult)=>{
-      if(codeResult){
-        //console.log(codeResult);
-        return user.save().then(() => {
-          req.logIn(user, (err) => {
-            if (err){
-              return res.sendStatus(401);
-            } else{
-              UserProfile.create({about:'', photo:'', country:'',address:'',firstName:'',lastName:'',portfolio:'',isStudent:false,isCompleted:false,
-    userId:user.id }).then(profile => {console.log("profile created"); });
-              token = jwt.sign({ id: user.id }, tokenSecret, { expiresIn: 86400 });
-              console.log("Email Api Call");
-              console.log("Get Token:"+token);
-              Axios.post(privateLocalAddress+'/api/sendSignUpEmail', {email:user.email}).then((response)=>{
-                console.log('Sent email verification');
-               }).catch((err) => {
-                console.log('Error in sending Email');
+    if(code!="" && code!=null && code!=undefined){
+      TableCode.findOne({where:{code:sequelize.where(sequelize.fn('LOWER', sequelize.col('code')),sequelize.fn('LOWER', code))}})
+      .then((codeResult)=>{
+        if(codeResult){
+          //console.log(codeResult);
+          return user.save().then(() => {
+            req.logIn(user, (err) => {
+              if (err){
+                return res.sendStatus(401);
+              } else{
+                UserProfile.create({about:'', photo:'', country:'',address:'',firstName:'',lastName:'',portfolio:'',isStudent:false,isCompleted:false,
+                userId:user.id }).then(profile => {console.log("profile created"); });
+                token = jwt.sign({ id: user.id }, tokenSecret, { expiresIn: 86400 });
+                console.log("Email Api Call");
+                console.log("Get Token:"+token);
+                Axios.post(privateLocalAddress+'/api/sendSignUpEmail', {email:user.email}).then((response)=>{
+                  console.log('Sent email verification');
+                 }).catch((err) => {
+                  console.log('Error in sending Email');
+                });
+                return res.status(200).send({ auth: true, email: user.email, name: user.first_name, company_name: user.company_name, access_token: token,success_msg:'OK',statusCode:200,is_email_verified:user.is_email_verified,unique_userid:user.unique_userid,random_id:user.random_id,role_type:user.role_type,code:code });
+              }
               });
-              return res.status(200).send({ auth: true, email: user.email, name: user.first_name, company_name: user.company_name, access_token: token,success_msg:'OK',statusCode:200,is_email_verified:user.is_email_verified,unique_userid:user.unique_userid,random_id:user.random_id,role_type:user.role_type,code:code });
-            }
+          });
+        }else{
+          return res.status(404).send({errorMessage:'Invalid Referral Code',codeExcute:'Invalid',status:404})
+        }
+      }).catch((error)=>{
+        return res.status(501).send({errorMessage:error,status:501})
+      })
+    }
+    else{
+      //console.log(codeResult);
+      return user.save().then(() => {
+        req.logIn(user, (err) => {
+          if (err){
+            return res.sendStatus(401);
+          } else{
+            UserProfile.create({about:'', photo:'', country:'',address:'',firstName:'',lastName:'',portfolio:'',isStudent:false,isCompleted:false,
+            userId:user.id }).then(profile => {console.log("profile created"); });
+            token = jwt.sign({ id: user.id }, tokenSecret, { expiresIn: 86400 });
+            console.log("Email Api Call");
+            console.log("Get Token:"+token);
+            Axios.post(privateLocalAddress+'/api/sendSignUpEmail', {email:user.email}).then((response)=>{
+              console.log('Sent email verification');
+             }).catch((err) => {
+              console.log('Error in sending Email');
             });
-        });
-      }else{
-        return res.status(404).send({errorMessage:'Sorry entered code is invalid',codeExcute:'Invalid',status:404})
-      }
-    }).catch((error)=>{
-      return res.status(501).send({errorMessage:error,status:501})
-    })
-    
-
+            return res.status(200).send({ auth: true, email: user.email, name: user.first_name, company_name: user.company_name, access_token: token,success_msg:'OK',statusCode:200,is_email_verified:user.is_email_verified,unique_userid:user.unique_userid,random_id:user.random_id,role_type:user.role_type,code:code });
+          }
+          });
+      }).catch((error)=>{
+        return res.status(501).send({errorMessage:error,status:501})
+      });
+    }
   }).catch(err => next(err));
 }catch(error){
   return res.status(500).send({errorMessage:error.message});
