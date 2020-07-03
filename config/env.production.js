@@ -13,5 +13,5 @@ export const PRO_ENQUIRY_BccEmail = 'assist@everyurban.com';
 export const CONATACTUS_TO_EMAIL = 'assist@everyurban.com';//for contactus
 export const SMTP_SECURE = false;
 export const postgres = {username:'postgres',server:'localhost',password:'everyurban2020',database:'every_urban'};
-export const hostName ="http://everyurban.com";
-export const privateLocalAddress ="http://localhost:8081";
+export const hostName ="https://everyurban.com";
+export const privateLocalAddress ="https://localhost:8081";
