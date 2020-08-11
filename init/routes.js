@@ -13,8 +13,12 @@ const userProfile = controllers && controllers.userProfile;
 const userEducation = controllers && controllers.userEducation;
 const tableCode = controllers && controllers.tableCode;
 const contactUs = controllers && controllers.contactUs;
-
-
+const userMedia = controllers && controllers.userMedia;
+const userPortfollo=controllers && controllers.userPortfollo;
+const userCategoryImage=controllers && controllers.userCategoryImage;
+const UserSpecialties= controllers && controllers.userSpecialties;
+const userProgress=controllers && controllers.userProgress;
+const userAbout=controllers && controllers.userAbout;
 
 var storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -36,6 +40,7 @@ var storage = multer.diskStorage({
   }
 });
 var upload = multer({storage: storage});
+//var uploadFiles = multer({ storage: storage }).array("file", 10);
 
 export default (app) => {
 
@@ -94,7 +99,39 @@ export default (app) => {
     app.post('/api/contactus/save', contactUs.create); // API route for user to create a book
     
   }
-
+  if(userMedia) {
+    app.post('/api/users/:userid/media', userMedia.create); // API route for user to create a book
+    app.put('/api/users/:userid/:id/media', userMedia.modify);
+    app.delete('/api/users/:userid/:id/media', userMedia.delete);
+    app.get('/api/users/:userid/media', userMedia.list);
+  }
+  if(userPortfollo){
+    app.post('/api/users/:userid/portfollo', userPortfollo.create); // API route for user to create a book
+    app.put('/api/users/:userid/:id/portfollo', userPortfollo.modify);
+    app.delete('/api/users/:userid/:id/portfollo', userPortfollo.delete);
+    app.get('/api/users/:userid/portfollo', userPortfollo.list);
+  }
+  if(userCategoryImage){
+    app.post('/api/users/:userid/:id/multiupload',upload.array('file',10), userCategoryImage.create);
+  }
+  if(UserSpecialties){
+    app.post('/api/users/:userid/specialties', UserSpecialties.create); // API route for user to create a book
+    app.put('/api/users/:userid/:id/specialties', UserSpecialties.modify);
+    app.delete('/api/users/:userid/:id/specialties', UserSpecialties.delete);
+    app.get('/api/users/:userid/specialties', UserSpecialties.list);
+  }
+  if(userProgress){
+    app.post('/api/users/:userid/progress', userProgress.create); // API route for user to create a book
+    app.put('/api/users/:userid/:id/progress', userProgress.modify);
+    app.delete('/api/users/:userid/:id/progress', userProgress.delete);
+    app.get('/api/users/:userid/progress', userProgress.list);
+  }
+  if(userAbout){
+    app.post('/api/users/:userid/about', userAbout.create); // API route for user to create a book
+    app.put('/api/users/:userid/:id/about', userAbout.modify);
+    app.delete('/api/users/:userid/:id/about', userAbout.delete);
+    app.get('/api/users/:userid/about', userAbout.list);
+  }
   if (passportConfig && passportConfig.google) {
     // google auth
     // Redirect the user to Google for authentication. When complete, Google

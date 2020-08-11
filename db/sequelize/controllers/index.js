@@ -6,6 +6,12 @@ import userEducation from './userEducation';
 import userProfile from './userProfile';
 import tableCode from './tableCode';
 import contactUs from './contactUs';
+import userMedia from './userMedia';
+import userPortfollo from './userPortfollo';
+import userCategoryImage from './userCategoryImage';
+import userSpecialties from './userSpecialties';
+import userProgress from './userProgress';
+import userAbout from './userabout';
 
 export default {
   topics,
@@ -15,6 +21,12 @@ export default {
   userEducation,
   userProfile,
   tableCode,
-  contactUs
+  contactUs,
+  userMedia,
+  userPortfollo,
+  userCategoryImage,
+  userSpecialties,
+  userProgress,
+  userAbout
  
 };

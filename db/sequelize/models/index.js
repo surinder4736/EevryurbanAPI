@@ -10,6 +10,12 @@ import userEducationModel from './usereducation';
 import userProfileModel from './userprofile';
 import tableCodeModel from './tbl_code';
 import contactUsModal from './tbl_contactus';
+import userMediaModal from './usermedia';
+import userPortfolloModal from './portfollo';
+import userCategoryImagesModal from './categoryimage';
+import UserSpecialtiesModal from './userspecialist';
+import UserProgressModal from './userprogress';
+import UserAboutModal from './about';
 
 const config = ENV ==='production'? sequelizeConfig.production : sequelizeConfig.development;
 
@@ -27,6 +33,12 @@ db.UserProfile = sequelize.import('UserProfile',userProfileModel);
 db.UserEducation = sequelize.import('UserEducation',userEducationModel);
 db.tableCode = sequelize.import('TableCode',tableCodeModel);
 db.contactUs = sequelize.import('ContactUs',contactUsModal);
+db.UserMedia=sequelize.import('UserMedia',userMediaModal);
+db.UserPortfollo=sequelize.import('UserPortfollo',userPortfolloModal);
+db.UserCategoryImage=sequelize.import('UserCategoryImages',userCategoryImagesModal);
+db.UserSpecialties=sequelize.import('UserSpecialties',UserSpecialtiesModal);
+db.UserProgress=sequelize.import('UserProgress',UserProgressModal);
+db.UserAbout=sequelize.import('UserAbout',UserAboutModal);
 Object.keys(db).forEach((key) => {
   const model = db[key];
   if (model.associate) {
