@@ -56,6 +56,7 @@ export default (app) => {
     app.get('/api/user/validateToken',usersController.validateToken);
     app.get('/api/user/userList',usersController.getUserList);
     app.delete('/api/user/deleteuser/:id',usersController.deleteuser);
+    app.post('/api/user/resendEmail', usersController.resendEmailVerify);
     
   } else {
     console.warn(unsupportedMessage('users routes'));

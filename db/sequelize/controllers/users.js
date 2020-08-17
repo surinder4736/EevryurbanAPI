@@ -113,6 +113,7 @@ user_name, email, password, name, last_name, is_active,
 let maxId=0;
 console.log("Refferl code : "+code);
 User.max('serial_no',{where:sequelize.where(sequelize.fn('date', sequelize.col('createdAt')), '=', 'NOW')}).then(function(getID){
+  // User.max('serial_no',{where:sequelize.where(sequelize.fn('date', sequelize.col('createdAt')),sequelize.fn('date', new Date()))}).then(function(getID){  
   if(Number.isNaN(getID)){
     maxId="0"+1;
     console.log("Coming ID:"+getID);
@@ -132,7 +133,7 @@ User.max('serial_no',{where:sequelize.where(sequelize.fn('date', sequelize.col('
     return res.status(500).send("Something went wrong"+error);
   });
   // find the user if exist then can not be signup..
-  User.findOne({ where: { email } }).then((existingUser) => {
+  User.findOne({ where: { email:sequelize.where(sequelize.fn('LOWER', sequelize.col('email')),sequelize.fn('LOWER', email)) } }).then((existingUser) => {
     if (existingUser) {
       console.log("User Already exist")
       return res.status(409).send({errorMessage: 'Sorry this user already exist',statusCode:409,existMsg:'Exist'});
@@ -451,6 +452,31 @@ export function deleteuser(req, res) {
     
 }
 
+//Email Verify
+export function resendEmailVerify(req,res,next){
+  try {
+    const{email}=req.body;
+    User.findOne({where:{email}}).then((getUser)=>{
+      if(getUser!=null && getUser.is_email_verified=="false"){
+        Axios.post(privateLocalAddress+'/api/sendSignUpEmail', {email:getUser.email}).then((response)=>{
+          console.log('Re-Sent email verification');
+          res.status(200).send({successMsg:"Email resend successfully",status:200,user:getUser});
+         }).catch((err) => {
+          console.log('Error in sending Email');
+        });
+      }else{
+           res.status(200).send({error:"AlreadyVerified",massageStaus:500,user:getUser});
+      }
+    })
+    console.log("Param Email:"+email);
+    //const userId="";
+    
+  } catch (error) {
+   res.status(500).send('We failed to save for some reason'+error);
+  }
+  
+}
+
 export default {
   login,
   logout,
@@ -462,5 +488,6 @@ export default {
   emailVerify,
   resetPasswordRequest,
   getUserList,
-  deleteuser
+  deleteuser,
+  resendEmailVerify
 };
