@@ -1,17 +1,18 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const UserProgress = sequelize.define('userprogresse', {
-    progressid:{
+    
+    position:{
       allowNull: {
         args: false,
-        msg: 'Please select type of link'
+        msg: 'Please enter position'
       },
-      type: DataTypes.INTEGER
+      type: DataTypes.STRING
     },
     establishment:{
         allowNull: {
           args: false,
-          msg: 'Please select type of link'
+          msg: 'Please enter establishment'
         },
         type: DataTypes.STRING
       },

@@ -3,11 +3,11 @@ const { UserProgress,User } = Models;
 
 class UserProgressController {
   static create(req, res) {
-    const { progressid,establishment } = req.body
+    const { position,establishment } = req.body
     const { userid } = req.params
     return UserProgress
       .create({
-        establishment,progressid,
+        establishment,position,
         userid
       })
       .then(progress => res.status(201).send({
@@ -21,20 +21,20 @@ class UserProgressController {
           .then(progress => res.status(200).send(progress));
       }
     static modify(req, res) {
-    const { establishment,progressid } = req.body
+    const { establishment,position } = req.body
     return UserProgress
         .findById(req.params.id)
         .then((progress) => {
             progress.update({
                 establishment: establishment || progress.establishment,
-                progressid:progressid||progress.progressid
+                position:position||progress.position
         })
         .then((updatedprogress) => {
             res.status(200).send({
             message: 'media updated successfully',
             data: {
                 establishment: establishment || updatedprogress.establishment,
-                progressid:progressid || updatedprogress.progressid                
+                position:position || updatedprogress.position                
             }
             });
         })
