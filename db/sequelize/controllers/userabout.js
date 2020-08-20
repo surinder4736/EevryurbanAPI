@@ -26,10 +26,10 @@ class UserAboutController {
         .findById(req.params.id)
         .then((media) => {
           media.update({
-          university: university || media.university,
-          status: status || media.status,
-          month:month || media.month,
-          year:year || media.year
+          university: university,
+          status: status,
+          month:month,
+          year:year 
         })
         .then((updatedMedia) => {
             res.status(200).send({
