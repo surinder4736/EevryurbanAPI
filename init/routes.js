@@ -114,6 +114,7 @@ export default (app) => {
   }
   if(userCategoryImage){
     app.post('/api/users/:userid/:id/multiupload',upload.array('file',10), userCategoryImage.create);
+    app.delete('/api/users/:userid/:id/multiupload', userCategoryImage.delete);
   }
   if(UserSpecialties){
     app.post('/api/users/:userid/specialties', UserSpecialties.create); // API route for user to create a book
