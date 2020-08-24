@@ -40,11 +40,17 @@ class UserProfiles {
                   data.languages=lng;
                   UserMedia.findAll({where:{userid:uid}}).then(med=>{
                     data.media=med;
-                    UserPortfollo.findAll({where:{userid:uid}}).then(follo=>{
+                    UserPortfollo.findAll({where:{userid:uid},order: [
+                      ['id', 'ASC']
+                  ],}).then(follo=>{
                       data.portfollo=follo;
-                      UserCategoryImage.findAll({where:{userid:uid}}).then(image=>{
+                      UserCategoryImage.findAll({where:{userid:uid},order: [
+                        ['id', 'ASC']
+                    ],}).then(image=>{
                         data.images=image;
-                        UserSpecialties.findAll({where:{userid:uid}}).then(special=>{
+                        UserSpecialties.findAll({where:{userid:uid},order: [
+                          ['id', 'ASC']
+                      ],}).then(special=>{
                           data.specialties=special;
                           UserProgress.findAll({where:{userid:uid}}).then(pro=>{
                             data.progress=pro;
