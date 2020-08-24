@@ -114,6 +114,7 @@ export default (app) => {
   }
   if(userCategoryImage){
     app.post('/api/users/:userid/:id/multiupload',upload.array('file',10), userCategoryImage.create);
+    app.post('/api/users/:userid/:categoryid/:id/multiupload',upload.array('file',10), userCategoryImage.modify);
     app.delete('/api/users/:userid/:id/multiupload', userCategoryImage.delete);
   }
   if(UserSpecialties){

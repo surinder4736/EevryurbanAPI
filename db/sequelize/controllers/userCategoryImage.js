@@ -5,7 +5,7 @@ class UserCategoryImageController {
     static create(req, res) {
         console.log("file length : "+req.files.length);
         for(let i=0;i<req.files.length;i++){
-            const { id } = req.params;
+            const { categoryid,id } = req.params;
             const {caption}=req.body;
             console.log("caption  : "+ caption);
             let folloid=id;
@@ -23,6 +23,28 @@ class UserCategoryImageController {
           message: `Your Port follo has been created successfully `,
         })  
     }
+    static modify(req,res){
+      console.log("file length : "+req.files.length);
+      for(let i=0;i<req.files.length;i++){
+          const { categoryid,id } = req.params;
+          const {caption}=req.body;
+          console.log("caption  : "+ caption);
+          // let folloid=categoryid;
+          const { userid } = req.params
+          let imageurl=req.files[i].filename;
+          console.log("file name : "+imageurl);
+          UserCategoryImage.findById(id).then((image) => {
+              image.update({
+                folloid:image.folloid,imageurl,caption,
+                userid
+          })
+          .catch(error => res.status(400).send(error));
+          });
+          return res.status(201).send({
+            message: `image has been updated successfully `,
+          })
+      }
+    }
     static list(req, res) {
         return UserCategoryImage
           .findAll()
@@ -34,7 +56,7 @@ class UserCategoryImageController {
           .then(media => {
             if(!media) {
               return res.status(400).send({
-              message: 'Media Not Found',
+              message: 'Image Not Found',
               });
             }
             return media
