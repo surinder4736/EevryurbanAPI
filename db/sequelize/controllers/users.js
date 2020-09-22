@@ -138,6 +138,9 @@ User.max('serial_no',{where:sequelize.where(sequelize.fn('date', sequelize.col('
   }).catch((error)=>{
     return res.status(500).send("Something went wrong"+error);
   });
+  if(maxId==0){
+    maxId="0"+1;
+  }
   // find the user if exist then can not be signup..
   User.findOne({ where: { email:sequelize.where(sequelize.fn('LOWER', sequelize.col('email')),sequelize.fn('LOWER', email)) } }).then((existingUser) => {
     if (existingUser) {
