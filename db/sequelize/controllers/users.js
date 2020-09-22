@@ -112,7 +112,8 @@ user_name, email, password, name, last_name, is_active,
 // get max id from user table
 let maxId=0;
 console.log("Refferl code : "+code);
-User.max('serial_no',{where:sequelize.where(sequelize.fn('date', sequelize.col('createdAt')), '=', 'NOW')}).then(function(getID){
+// date(column): sequelize.fn('currdate')
+User.max('serial_no',{where:sequelize.where(sequelize.fn('date', sequelize.col('createdAt')), '=', sequelize.fn('date', new Date()))}).then(function(getID){
   // User.max('serial_no',{where:sequelize.where(sequelize.fn('date', sequelize.col('createdAt')),sequelize.fn('date', new Date()))}).then(function(getID){  
   if(Number.isNaN(getID)){
     maxId="0"+1;
@@ -120,9 +121,14 @@ User.max('serial_no',{where:sequelize.where(sequelize.fn('date', sequelize.col('
     console.log("GET MAXID:"+maxId);
   }else{
     if(getID<10){
-      maxId="0"+(getID+1);
+      if(getID==9){
+        maxId=(getID+1);
+      }
+      else{
+        maxId="0"+(getID+1);
+      }
       console.log("Coming ID:"+getID);
-    console.log("GET MAXID:"+maxId);
+      console.log("GET MAXID:"+maxId);
     }else{
       maxId=getID+1;
       console.log("Coming ID:"+getID);
