@@ -9,6 +9,13 @@ module.exports = (sequelize, DataTypes) => {
       },
       type: DataTypes.STRING
     },
+    program: {
+      allowNull: {
+        args: false,
+        msg: 'Please enter the program '
+      },
+      type: DataTypes.STRING
+    },
     status: {
         allowNull: {
           args: false,

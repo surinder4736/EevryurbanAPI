@@ -3,11 +3,11 @@ const { UserAbout,User } = Models;
 
 class UserAboutController {
   static create(req, res) {
-    const { university,status,month,year } = req.body
+    const { university,status,month,year,program } = req.body
     const { userid } = req.params
     return UserAbout
       .create({
-        university,status,month,year,
+        university,status,month,year,program,
         userid
       })
       .then(element => res.status(201).send({
@@ -21,7 +21,7 @@ class UserAboutController {
           .then(medias => res.status(200).send(medias));
       }
     static modify(req, res) {
-    const { university,status,month,year } = req.body
+    const { university,status,month,year,program } = req.body
     return UserAbout
         .findById(req.params.id)
         .then((media) => {
@@ -29,7 +29,8 @@ class UserAboutController {
           university: university,
           status: status,
           month:month,
-          year:year 
+          year:year,
+          program:program 
         })
         .then((updatedMedia) => {
             res.status(200).send({
@@ -38,7 +39,8 @@ class UserAboutController {
                 university: university || updatedMedia.university,
                 status: status || updatedMedia.status,
                 month:month || updatedMedia.month,
-                year:year || updatedMedia.year
+                year:year || updatedMedia.year,
+                program:program || updatedMedia.program
             }
             });
         })
