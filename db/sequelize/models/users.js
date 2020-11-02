@@ -30,6 +30,7 @@ export default (sequelize, DataTypes) => {
     is_phone_verified: DataTypes.STRING,
     created_on: DataTypes.DATE,
     updated_on: DataTypes.DATE,
+    last_login: DataTypes.DATE,
     reset_password_token: DataTypes.STRING,
     reset_password_expires: DataTypes.DATE,
     isadmin: DataTypes.BOOLEAN,

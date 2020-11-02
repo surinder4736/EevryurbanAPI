@@ -34,7 +34,8 @@ export function login(req, res, next) {
     // logIn()) that can be used to establish a login session
     return req.logIn(user, (loginErr) => {
       if (loginErr) return res.sendStatus(401);
-      console.log("UID:"+user.unique_userid)
+      console.log("UID:"+user.unique_userid);
+      User.update({last_login:sequelize.fn('NOW')},{where : { id:user.id}});
           token = jwt.sign({id:user.id}, tokenSecret, { expiresIn: 86400 });
           return res.status(200).send({ auth: true, email: user.email, name: user.first_name, unique_userid:user.unique_userid,is_email_verified:user.is_email_verified,random_id:user.random_id,role_type:user.role_type, access_token: token,id:user.id,isadmin:user.isadmin,code:user.code });
          // return res.sendStatus(200);
@@ -486,6 +487,21 @@ export function resendEmailVerify(req,res,next){
   
 }
 
+export function modifyStatus(req,res,){
+  // cosnole.log();
+  User.findOne({id:req.params.userId})
+  .then((data) => {
+    User.update({is_email_verified:req.body.status},{where : { id:req.params.userId}})
+  .then((updatedLanguage) => {
+      res.status(200).send({
+      message: ' updated successfully'})
+  })
+  .catch(error => res.status(400).send(error));
+  })
+  .catch(error => res.status(400).send(error));
+  
+}
+
 export default {
   login,
   logout,
@@ -498,5 +514,6 @@ export default {
   resetPasswordRequest,
   getUserList,
   deleteuser,
-  resendEmailVerify
+  resendEmailVerify,
+  modifyStatus
 };

@@ -57,6 +57,7 @@ export default (app) => {
     app.get('/api/user/userList',usersController.getUserList);
     app.delete('/api/user/deleteuser/:id',usersController.deleteuser);
     app.post('/api/user/resendEmail', usersController.resendEmailVerify);
+    app.put('/api/users/status/:userId', usersController.modifyStatus);
     
   } else {
     console.warn(unsupportedMessage('users routes'));
